@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>결재 대기 시스템</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0 auto;
+      padding: 16px;
+      width: 100%;
+      max-width: 480px;
+      background: #f0fdfc;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #008080;
+      margin-bottom: 24px;
+    }
+
+    input, button {
+      width: 100%;
+      font-size: 1rem;
+      padding: 14px 16px;
+      margin-top: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #00bfa6;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #009688;
+    }
+
+    .info {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    #myQueueNumber {
+      font-weight: bold;
+      color: #444;
+      margin-bottom: 8px;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 1.2rem;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>결재 대기 시스템</h2>
+
+  <input type="text" id="nameInput" placeholder="이름 입력">
+  <button onclick="checkMyQueue()">내 순번 확인</button>
+
+  <div class="info">
+    <p id="myQueueNumber"></p>
+    <p>현재 대기자 수: <span id="queueCount">0</span>명</p>
+  </div>
+
+  <footer>해운대구청</footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>

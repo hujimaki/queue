@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>관리자 - 순번 관리</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0 auto;
+      padding: 16px;
+      width: 100%;
+      max-width: 480px;
+      background: #fffef8;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #b22222;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      margin-top: 12px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: 10px;
+      font-weight: bold;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn.add {
+      background-color: #28a745;
+    }
+
+    .btn.add:hover {
+      background-color: #218838;
+    }
+
+    .btn.next {
+      background-color: #007bff;
+    }
+
+    .btn.next:hover {
+      background-color: #0056b3;
+    }
+
+    .btn.delete {
+      background-color: #dc3545;
+      margin-top: 30px;
+      width: 100%;
+    }
+
+    .btn.delete:hover {
+      background-color: #bd2130;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+
+    .name-time {
+      flex-grow: 1;
+    }
+
+    .delete-btn {
+      background-color: #999;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background-color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loginSection">
+    <h2>🔒 관리자 로그인</h2>
+    <input type="password" id="passwordInput" placeholder="비밀번호 입력">
+    <button class="btn next" onclick="checkPassword()">접속하기</button>
+  </div>
+
+  <div id="adminSection" style="display: none;">
+    <h2>🛠 대기자 관리</h2>
+    <input type="text" id="nameInput" placeholder="이름 입력">
+
+    <div class="button-group">
+      <button class="btn add" onclick="addToQueue()">순번 등록</button>
+      <button class="btn next" onclick="processNext()">다음 순번 처리</button>
+    </div>
+
+    <ul id="queueList"></ul>
+
+    <button class="btn delete" onclick="clearAll()">전체 삭제</button>
+  </div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
