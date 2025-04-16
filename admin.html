@@ -21,12 +21,13 @@
       color: #b22222;
     }
 
-    input {
+    input, textarea {
       width: 100%;
       padding: 14px;
       font-size: 1rem;
       margin-top: 12px;
       border-radius: 10px;
+      border: 1px solid #ccc;
       box-sizing: border-box;
     }
 
@@ -47,31 +48,14 @@
       cursor: pointer;
     }
 
-    .btn.add {
-      background-color: #28a745;
-    }
+    .btn.add { background-color: #28a745; }
+    .btn.add:hover { background-color: #218838; }
 
-    .btn.add:hover {
-      background-color: #218838;
-    }
+    .btn.next { background-color: #007bff; }
+    .btn.next:hover { background-color: #0056b3; }
 
-    .btn.next {
-      background-color: #007bff;
-    }
-
-    .btn.next:hover {
-      background-color: #0056b3;
-    }
-
-    .btn.delete {
-      background-color: #dc3545;
-      margin-top: 30px;
-      width: 100%;
-    }
-
-    .btn.delete:hover {
-      background-color: #bd2130;
-    }
+    .btn.delete { background-color: #dc3545; margin-top: 30px; width: 100%; }
+    .btn.delete:hover { background-color: #bd2130; }
 
     ul {
       list-style-type: none;
@@ -88,9 +72,7 @@
       font-size: 0.95rem;
     }
 
-    .name-time {
-      flex-grow: 1;
-    }
+    .name-time { flex-grow: 1; }
 
     .delete-btn {
       background-color: #999;
@@ -101,9 +83,7 @@
       cursor: pointer;
     }
 
-    .delete-btn:hover {
-      background-color: #666;
-    }
+    .delete-btn:hover { background-color: #666; }
   </style>
 </head>
 <body>
@@ -116,15 +96,17 @@
 
   <div id="adminSection" style="display: none;">
     <h2>🛠 대기자 관리</h2>
-    <input type="text" id="nameInput" placeholder="이름 입력">
 
+    <input type="text" id="nameInput" placeholder="단일 이름 등록">
     <div class="button-group">
-      <button class="btn add" onclick="addToQueue()">순번 등록</button>
+      <button class="btn add" onclick="addToQueue()">등록</button>
       <button class="btn next" onclick="processNext()">다음 순번 처리</button>
     </div>
 
-    <ul id="queueList"></ul>
+    <textarea id="bulkNames" rows="4" placeholder="여러 이름 쉼표(,)로 입력 → 랜덤 순번 등록"></textarea>
+    <button class="btn add" onclick="addRandomizedQueue()">랜덤 순번 등록</button>
 
+    <ul id="queueList"></ul>
     <button class="btn delete" onclick="clearAll()">전체 삭제</button>
   </div>
 
