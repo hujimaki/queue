@@ -1,89 +1,57 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자 - 순번 관리</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      margin: 0 auto;
-      padding: 16px;
-      width: 100%;
-      max-width: 480px;
-      background: #fffef8;
-      box-sizing: border-box;
-    }
-
-    h2 {
+      margin: 20px;
       text-align: center;
-      font-size: 1.4rem;
-      color: #b22222;
     }
-
-    input, textarea {
-      width: 100%;
-      padding: 14px;
-      font-size: 1rem;
-      margin-top: 12px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .btn {
-      flex: 1;
-      padding: 14px;
-      font-size: 1rem;
-      border-radius: 10px;
-      font-weight: bold;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn.add { background-color: #28a745; }
-    .btn.add:hover { background-color: #218838; }
-
-    .btn.next { background-color: #007bff; }
-    .btn.next:hover { background-color: #0056b3; }
-
-    .btn.delete { background-color: #dc3545; margin-top: 30px; width: 100%; }
-    .btn.delete:hover { background-color: #bd2130; }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin-top: 20px;
-    }
-
-    li {
+    input, button, textarea, select {
+      font-size: 1.1em;
+      margin: 8px auto;
       padding: 10px;
-      border-bottom: 1px solid #ddd;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.95rem;
+      width: 85%;
+      max-width: 400px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      display: block;
     }
-
-    .name-time { flex-grow: 1; }
-
-    .delete-btn {
-      background-color: #999;
+    button {
+      background-color: #3498db;
+    }
+    button:nth-of-type(2) { background-color: #2ecc71; }  /* 시간 적용 */
+    button:nth-of-type(3) { background-color: #9b59b6; }  /* 이름 추가 */
+    button:nth-of-type(4) { background-color: #f39c12; }  /* 랜덤 등록 */
+    button:nth-of-type(5) { background-color: #1abc9c; }  /* 랜덤 순번 */
+    button:nth-of-type(6) { background-color: #e67e22; }  /* 다음 순번 */
+    button:nth-of-type(7) { background-color: #e74c3c; }  /* 전체 삭제 */
       color: white;
       border: none;
-      padding: 6px 10px;
-      border-radius: 5px;
-      cursor: pointer;
+      margin-bottom: 6px;
     }
-
-    .delete-btn:hover { background-color: #666; }
+    button:hover {
+      filter: brightness(1.1);
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px auto;
+      max-width: 400px;
+      text-align: left;
+    }
+    li {
+      margin: 5px 0;
+    }
+    #setTimeText {
+      margin-top: 10px;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -91,25 +59,45 @@
   <div id="loginSection">
     <h2>🔒 관리자 로그인</h2>
     <input type="password" id="passwordInput" placeholder="비밀번호 입력">
-    <button class="btn next" onclick="checkPassword()">접속하기</button>
+    <button onclick="checkPassword()">접속하기</button>
   </div>
 
   <div id="adminSection" style="display: none;">
     <h2>🛠 대기자 관리</h2>
 
-    <input type="text" id="nameInput" placeholder="단일 이름 등록">
-    <div class="button-group">
-      <button class="btn add" onclick="addToQueue()">등록</button>
-      <button class="btn next" onclick="processNext()">다음 순번 처리</button>
-    </div>
+    <h3>결재 시작 시간</h3>
+    <select id="approvalTimeSelect"></select>
+    <button onclick="saveApprovalTime()">시간 적용</button>
+    <div id="setTimeText"></div>
 
-    <textarea id="bulkNames" rows="4" placeholder="여러 이름 쉼표(,)로 입력 → 랜덤 순번 등록"></textarea>
-    <button class="btn add" onclick="addRandomizedQueue()">랜덤 순번 등록</button>
+    <h3>이름 개별 등록</h3>
+    <input type="text" id="nameInput" placeholder="이름 입력">
+    <button onclick="addToQueue()">추가</button>
 
+    <h3>여러 명 랜덤 등록</h3>
+    <textarea id="bulkNames" rows="4" placeholder="이름1,이름2,이름3..."></textarea>
+    <button onclick="addRandomizedQueue()">랜덤 등록</button>
+
+    <h3>신청자 목록</h3>
     <ul id="queueList"></ul>
-    <button class="btn delete" onclick="clearAll()">전체 삭제</button>
+
+    <button onclick="randomizeFinalQueue()">✅ 신청 마감 후 랜덤 순번 부여</button>
+    <button onclick="processNext()">다음 순번 처리</button>
+    <button onclick="clearAll()">전체 삭제</button>
   </div>
 
   <script type="module" src="admin.js"></script>
+  <script>
+    // 시간 선택 박스 자동 생성 (00:00 ~ 23:30까지 30분 단위)
+    const select = document.getElementById('approvalTimeSelect');
+    for (let h = 0; h < 24; h++) {
+      for (let m = 0; m < 60; m += 30) {
+        const opt = document.createElement('option');
+        opt.value = (h < 10 ? '0' : '') + h + ':' + (m === 0 ? '00' : m);
+        opt.text = opt.value;
+        select.appendChild(opt);
+      }
+    }
+  </script>
 </body>
 </html>
